@@ -1,0 +1,40 @@
+---
+namespace: network
+name: toolkit
+version: 0.0.2
+readme: README.md
+
+authors:
+  - Sean Cavanaugh <seanc@redhat.com> @IPvSean
+  - Ajay Chenampara @termlen0
+  - Gerald Dykeman @GeraldDykeman
+
+
+description: repository of demos to showcase Ansible Network Automation.
+
+license:
+  - GPL-3.0-or-later
+
+tags:
+  - network
+  - tower
+  - awx
+  - controller
+  - platform
+
+dependencies:
+  "cisco.ios": ">=2.2.0"
+  "arista.eos": ">=2.1.2"
+  "junipernetworks.junos": ">=2.2.0"
+  "ansible.utils": ">=2.2.0"
+
+build_ignore:
+  - network_setup
+  - '*.tar.gz'
+  - roles/l3_interface
+
+
+repository: http://github.com/network-automation/toolkit
+documentation: http://github.com/network-automation/toolkit
+homepage: http://github.com/network-automation/toolkit
+issues: https://github.com/network-automation/toolkit/issues

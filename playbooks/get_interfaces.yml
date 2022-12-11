@@ -1,5 +1,5 @@
 ---
-- hosts: cisco
+- hosts: all
 
   tasks:
     - name: Facts
@@ -7,7 +7,7 @@
         gather_subset: min
         gather_network_resources: interfaces
       register: facts_output
-    
+
     - name: print output
       debug:
         var: facts_output

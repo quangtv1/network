@@ -79,15 +79,58 @@
 #             ]
 #         }
 #    },
-#
-vars:
-  vlan:
-    id: "{{ item.id }}"
-    name: "{{ item.name }}"
-    status: "{{ item.status }}"
-    ports: "{{ (item.ports|replace('Gi', 'GigabitEthernet') | replace('Po','PortChannel')).split(', ') }}"
+# #
+# vars:
+#   vlan:
+#     id: "{{ item.id }}"
+#     name: "{{ item.name }}"
+#     status: "{{ item.status }}"
+#     ports: "{{ (item.ports|replace('Gi', 'GigabitEthernet') | replace('Po','PortChannel')).split(', ') }}"
 
-keys:
-  vlans:
-    value: "{{ vlan }}"
-    items: "^(?P<id>\\d+)\\s+(?P<name>\\S+)\\s+(?P<status>[a-z]{4,})\\s*(?P<ports>([A-Za-z]+).+)?"
+# keys:
+#   vlans:
+#     value: "{{ vlan }}"
+#     items: "^(?P<id>\\d+)\\s+(?P<name>\\S+)\\s+(?P<status>[a-z]{4,})\\s*(?P<ports>([A-Za-z]+).+)?"
+
+
+---
+- hosts: all
+  gather_facts: false
+  connection: ansible.netcommon.network_cli
+
+  tasks:
+    - name: Run cli_command on Arista and display results
+      block:
+      - name: Run cli_command on Arista
+        ansible.netcommon.cli_command:
+          command: show ip int br
+        register: result
+
+      - name: Display result to terminal window
+        debug:
+          var: result.stdout_lines
+      when: ansible_network_os == 'arista.eos.eos'
+
+    - name: Run cli_command on Cisco IOS and display results
+      block:
+      - name: Run cli_command on Cisco IOS
+        ansible.netcommon.cli_command:
+          command: show ip int br
+        register: result
+
+      - name: Display result to terminal window
+        debug:
+          var: result.stdout_lines
+      when: ansible_network_os == 'cisco.ios.ios'
+
+    - name: Run cli_command on Vyos and display results
+      block:
+      - name: Run cli_command on Vyos
+        ansible.netcommon.cli_command:
+          command: show interfaces
+        register: result
+
+      - name: Display result to terminal window
+        debug:
+          var: result.stdout_lines
+      when: ansible_network_os == 'vyos.vyos.vyos'
